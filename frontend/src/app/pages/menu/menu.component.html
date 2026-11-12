@@ -1,0 +1,28 @@
+<div class="layout-menu">
+  <section>
+    <h2>Menú</h2>
+
+    @if (cargando()) {
+      <p class="muted">Cargando productos…</p>
+    }
+    @if (error()) {
+      <div class="alert alert-error">{{ error() }}</div>
+    }
+
+    <div class="grid">
+      @for (p of productos(); track p.id) {
+        <article class="card producto" [class.agotado]="!p.disponible">
+          <h3>{{ p.nombre }}</h3>
+          <p class="precio">{{ p.precio | currency: 'MXN' : 'symbol-narrow' }}</p>
+          @if (p.disponible) {
+            <button class="btn btn-primary btn-sm" (click)="agregar(p)">Agregar</button>
+          } @else {
+            <span class="badge badge-gris">No disponible</span>
+          }
+        </article>
+      }
+    </div>
+  </section>
+
+  <app-carrito />
+</div>

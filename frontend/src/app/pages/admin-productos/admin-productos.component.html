@@ -1,0 +1,72 @@
+<section>
+  <h2>Gestión de productos</h2>
+
+  @if (aviso()) {
+    <div class="alert alert-ok">{{ aviso() }}</div>
+  }
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  <form class="card form-producto" [formGroup]="form" (ngSubmit)="guardar()">
+    <h3>{{ editandoId() === null ? 'Nuevo producto' : 'Editar producto #' + editandoId() }}</h3>
+    <div class="fila">
+      <label>
+        Nombre
+        <input type="text" formControlName="nombre" />
+      </label>
+      <label>
+        Precio (MXN)
+        <input type="number" step="0.5" min="0.01" formControlName="precio" />
+      </label>
+      <label class="check">
+        <input type="checkbox" formControlName="disponible" />
+        Disponible
+      </label>
+    </div>
+    @if (form.controls.precio.touched && form.controls.precio.invalid) {
+      <small class="error-text">El precio debe ser mayor a 0 (RN1)</small>
+    }
+    @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+      <small class="error-text">El nombre es obligatorio</small>
+    }
+    <div class="acciones">
+      <button class="btn btn-primary btn-sm" type="submit">Guardar</button>
+      @if (editandoId() !== null) {
+        <button class="btn btn-ghost btn-sm" type="button" (click)="cancelar()">Cancelar</button>
+      }
+    </div>
+  </form>
+
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Disponibilidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of productos(); track p.id) {
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.nombre }}</td>
+          <td>{{ p.precio | currency: 'MXN' : 'symbol-narrow' }}</td>
+          <td>
+            <span class="badge" [class.badge-verde]="p.disponible" [class.badge-gris]="!p.disponible">
+              {{ p.disponible ? 'Disponible' : 'No disponible' }}
+            </span>
+          </td>
+          <td class="acciones">
+            <button class="btn btn-ghost btn-sm" (click)="editar(p)">Editar</button>
+            <button class="btn btn-ghost btn-sm" (click)="alternarDisponibilidad(p)">
+              {{ p.disponible ? 'Desactivar' : 'Activar' }}
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

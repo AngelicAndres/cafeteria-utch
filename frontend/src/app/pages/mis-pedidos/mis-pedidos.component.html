@@ -1,0 +1,41 @@
+<section>
+  <div class="encabezado">
+    <h2>Mis pedidos</h2>
+    <button class="btn btn-ghost btn-sm" (click)="cargar()" [disabled]="cargando()">
+      {{ cargando() ? 'Actualizando…' : '↻ Actualizar' }}
+    </button>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  @for (p of pedidos(); track p.id) {
+    <article class="card pedido">
+      <div class="pedido-cabecera">
+        <div>
+          <strong>Pedido #{{ p.id }}</strong>
+          <small class="muted">{{ p.fecha | date: 'dd/MM/yyyy HH:mm' }}</small>
+        </div>
+        <span class="badge estado-{{ p.estado }}">{{ etiqueta[p.estado] }}</span>
+      </div>
+
+      <ol class="progreso">
+        @for (paso of estados; track paso) {
+          <li [class.hecho]="alcanzado(p.estado, paso)">{{ etiqueta[paso] }}</li>
+        }
+      </ol>
+
+      <ul class="lista-detalle">
+        @for (d of p.detalles; track d.productoId) {
+          <li>{{ d.cantidad }} × {{ d.producto }} <span>{{ d.subtotal | currency: 'MXN' : 'symbol-narrow' }}</span></li>
+        }
+      </ul>
+      <p class="total">Total: {{ p.total | currency: 'MXN' : 'symbol-narrow' }}</p>
+    </article>
+  } @empty {
+    @if (!cargando()) {
+      <p class="muted">Aún no tienes pedidos.</p>
+    }
+  }
+</section>

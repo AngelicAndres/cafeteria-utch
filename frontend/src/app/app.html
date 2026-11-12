@@ -1,0 +1,32 @@
+@if (auth.sesion(); as s) {
+  <header class="navbar">
+    <span class="marca">☕ Cafetería UTCh</span>
+    <nav>
+      @switch (s.rol) {
+        @case ('CLIENTE') {
+          <a routerLink="/menu" routerLinkActive="activo">
+            Menú
+            @if (carrito.cantidadTotal() > 0) {
+              <span class="contador">{{ carrito.cantidadTotal() }}</span>
+            }
+          </a>
+          <a routerLink="/mis-pedidos" routerLinkActive="activo">Mis pedidos</a>
+        }
+        @case ('PERSONAL') {
+          <a routerLink="/personal" routerLinkActive="activo">Pedidos</a>
+        }
+        @case ('ADMIN') {
+          <a routerLink="/admin" routerLinkActive="activo">Productos</a>
+        }
+      }
+    </nav>
+    <div class="usuario">
+      <span>{{ s.nombre }} <small class="rol">{{ s.rol }}</small></span>
+      <button class="btn btn-ghost btn-sm" (click)="salir()">Salir</button>
+    </div>
+  </header>
+}
+
+<main class="contenedor">
+  <router-outlet />
+</main>

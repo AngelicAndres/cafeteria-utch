@@ -1,0 +1,115 @@
+/* Estilos globales del prototipo - Cafetería UTCh */
+:root {
+  --cafe: #6b3f1f;
+  --cafe-oscuro: #4a2a12;
+  --crema: #faf6f1;
+  --borde: #e6ddd3;
+  --texto: #2b2118;
+  --muted: #7a6d62;
+  --verde: #2e7d32;
+  --rojo: #c62828;
+  --azul: #1565c0;
+  --ambar: #ef8f00;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--texto);
+  background: var(--crema);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+h1, h2, h3 { margin: 0 0 0.6rem; }
+.muted { color: var(--muted); }
+.error-text { color: var(--rojo); display: block; margin-top: -0.4rem; margin-bottom: 0.6rem; }
+
+/* Navbar */
+.navbar {
+  display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+  padding: 0.7rem 1.5rem; background: var(--cafe); color: #fff;
+}
+.navbar .marca { font-weight: 700; font-size: 1.1rem; }
+.navbar nav { display: flex; gap: 1rem; flex: 1; }
+.navbar nav a { color: #f1e4d6; text-decoration: none; padding: 0.3rem 0.6rem; border-radius: 6px; }
+.navbar nav a.activo, .navbar nav a:hover { background: var(--cafe-oscuro); color: #fff; }
+.navbar .usuario { display: flex; align-items: center; gap: 0.8rem; }
+.navbar .rol { opacity: 0.8; font-size: 0.7rem; border: 1px solid #fff6; padding: 0 0.35rem; border-radius: 4px; }
+.navbar .btn-ghost { color: #fff; border-color: #fff8; }
+.contador { background: var(--ambar); color: #000; border-radius: 999px; padding: 0 0.45rem; font-size: 0.75rem; margin-left: 0.25rem; }
+
+.contenedor { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+
+/* Tarjetas y botones */
+.card { background: #fff; border: 1px solid var(--borde); border-radius: 10px; padding: 1rem 1.2rem; }
+.btn {
+  border: 1px solid transparent; border-radius: 8px; padding: 0.55rem 1rem; cursor: pointer;
+  font: inherit; text-decoration: none; display: inline-block; text-align: center;
+}
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-primary { background: var(--cafe); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--cafe-oscuro); }
+.btn-ghost { background: transparent; border-color: var(--borde); color: var(--texto); }
+.btn-sm { padding: 0.3rem 0.7rem; font-size: 0.875rem; }
+.btn-block { width: 100%; margin-top: 0.8rem; }
+
+input[type='text'], input[type='email'], input[type='password'], input[type='number'] {
+  width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--borde); border-radius: 6px; font: inherit;
+  margin-top: 0.25rem; margin-bottom: 0.8rem;
+}
+label { display: block; font-size: 0.9rem; }
+label.check { display: flex; align-items: center; gap: 0.4rem; }
+
+/* Alertas y badges */
+.alert { padding: 0.6rem 0.8rem; border-radius: 8px; margin: 0.6rem 0; }
+.alert-error { background: #fdecea; color: var(--rojo); }
+.alert-ok { background: #e8f5e9; color: var(--verde); }
+.badge { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.badge-gris { background: #eee; color: #666; }
+.badge-verde { background: #e8f5e9; color: var(--verde); }
+.estado-RECIBIDO { background: #e3f2fd; color: var(--azul); }
+.estado-EN_PREPARACION { background: #fff3e0; color: var(--ambar); }
+.estado-LISTO { background: #e8f5e9; color: var(--verde); }
+.estado-ENTREGADO { background: #eceff1; color: #455a64; }
+
+/* Login */
+.login { display: grid; place-items: center; min-height: 80vh; }
+.login-card { width: min(380px, 100%); }
+.demos { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.85rem; }
+
+/* Menú + carrito */
+.layout-menu { display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; align-items: start; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+.producto h3 { font-size: 1rem; }
+.producto .precio { font-size: 1.2rem; font-weight: 700; color: var(--cafe); margin: 0 0 0.6rem; }
+.producto.agotado { opacity: 0.6; }
+.carrito { position: sticky; top: 1rem; }
+.lista-carrito { list-style: none; padding: 0; margin: 0; }
+.lista-carrito li { display: grid; grid-template-columns: 1fr 64px auto; gap: 0.5rem; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid var(--borde); }
+.lista-carrito li small { display: block; }
+.lista-carrito input { margin: 0; }
+.lista-detalle { list-style: none; padding: 0; margin: 0.5rem 0; }
+.lista-detalle li { display: flex; justify-content: space-between; padding: 0.2rem 0; }
+.total { font-weight: 700; font-size: 1.1rem; margin: 0.6rem 0 0.2rem; }
+.acciones { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+
+/* Pedidos */
+.encabezado { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+.pedido { margin-bottom: 1rem; }
+.pedido-cabecera { display: flex; justify-content: space-between; align-items: center; }
+.pedido-cabecera small { margin-left: 0.6rem; }
+.progreso { display: flex; list-style: none; padding: 0; margin: 0.8rem 0; gap: 0.3rem; }
+.progreso li { flex: 1; text-align: center; font-size: 0.78rem; padding: 0.35rem 0.2rem; border-radius: 6px; background: #f1ece6; color: var(--muted); }
+.progreso li.hecho { background: var(--cafe); color: #fff; }
+
+/* Tablas y pestañas */
+.tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.tab { border: 1px solid var(--borde); background: #fff; border-radius: 999px; padding: 0.3rem 0.9rem; cursor: pointer; font: inherit; }
+.tab.activo { background: var(--cafe); color: #fff; border-color: var(--cafe); }
+.tabla { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--borde); border-radius: 10px; overflow: hidden; }
+.tabla th, .tabla td { padding: 0.55rem 0.7rem; text-align: left; border-bottom: 1px solid var(--borde); vertical-align: top; }
+.tabla th { background: #f4ede6; font-size: 0.85rem; }
+.form-producto { margin-bottom: 1rem; }
+.form-producto .fila { display: grid; grid-template-columns: 2fr 1fr auto; gap: 1rem; align-items: center; }
+
+@media (max-width: 800px) {
+  .layout-menu { grid-template-columns: 1fr; }
+  .form-producto .fila { grid-template-columns: 1fr; }
+}

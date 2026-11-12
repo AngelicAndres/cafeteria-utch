@@ -1,0 +1,55 @@
+<aside class="card carrito">
+  @if (confirmado(); as p) {
+    <h2>¡Pedido registrado!</h2>
+    <p>Folio <strong>#{{ p.id }}</strong></p>
+    <p>Estado: <span class="badge estado-{{ p.estado }}">{{ etiqueta[p.estado] }}</span></p>
+    <ul class="lista-detalle">
+      @for (d of p.detalles; track d.productoId) {
+        <li>{{ d.cantidad }} × {{ d.producto }} <span>{{ d.subtotal | currency: 'MXN' : 'symbol-narrow' }}</span></li>
+      }
+    </ul>
+    <p class="total">Total: {{ p.total | currency: 'MXN' : 'symbol-narrow' }}</p>
+    <div class="acciones">
+      <a class="btn btn-primary btn-sm" routerLink="/mis-pedidos">Ver mis pedidos</a>
+      <button class="btn btn-ghost btn-sm" (click)="nuevoPedido()">Hacer otro pedido</button>
+    </div>
+  } @else {
+    <h2>Mi pedido</h2>
+    @if (carrito.items().length === 0) {
+      <p class="muted">Agrega productos del menú.</p>
+    } @else {
+      <ul class="lista-carrito">
+        @for (i of carrito.items(); track i.producto.id) {
+          <li>
+            <div>
+              <strong>{{ i.producto.nombre }}</strong>
+              <small class="muted">{{ i.producto.precio | currency: 'MXN' : 'symbol-narrow' }} c/u</small>
+            </div>
+            <input
+              type="number"
+              min="1"
+              [value]="i.cantidad"
+              (change)="cambiarCantidad(i.producto.id, $any($event.target).value)"
+              aria-label="Cantidad"
+            />
+            <button class="btn btn-ghost btn-sm" (click)="carrito.quitar(i.producto.id)" aria-label="Quitar">✕</button>
+          </li>
+        }
+      </ul>
+      <p class="total">Total estimado: {{ carrito.total() | currency: 'MXN' : 'symbol-narrow' }}</p>
+      <small class="muted">El total final lo calcula el servidor.</small>
+    }
+
+    @if (error()) {
+      <div class="alert alert-error">{{ error() }}</div>
+    }
+
+    <button
+      class="btn btn-primary btn-block"
+      [disabled]="carrito.items().length === 0 || enviando()"
+      (click)="confirmar()"
+    >
+      {{ enviando() ? 'Enviando…' : 'Confirmar pedido' }}
+    </button>
+  }
+</aside>

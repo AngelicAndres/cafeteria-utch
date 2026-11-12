@@ -1,0 +1,63 @@
+<section>
+  <div class="encabezado">
+    <h2>Panel del personal</h2>
+    <button class="btn btn-ghost btn-sm" (click)="cargar()" [disabled]="cargando()">↻ Actualizar</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" [class.activo]="filtro() === null" (click)="filtrar(null)">Todos</button>
+    @for (e of estados; track e) {
+      <button class="tab" [class.activo]="filtro() === e" (click)="filtrar(e)">{{ etiqueta[e] }}</button>
+    }
+  </div>
+
+  @if (aviso()) {
+    <div class="alert alert-ok">{{ aviso() }}</div>
+  }
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th>Folio</th>
+        <th>Cliente</th>
+        <th>Hora</th>
+        <th>Productos</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of pedidos(); track p.id) {
+        <tr>
+          <td>#{{ p.id }}</td>
+          <td>{{ p.cliente }}</td>
+          <td>{{ p.fecha | date: 'HH:mm' }}</td>
+          <td>
+            @for (d of p.detalles; track d.productoId) {
+              <div>{{ d.cantidad }} × {{ d.producto }}</div>
+            }
+          </td>
+          <td>{{ p.total | currency: 'MXN' : 'symbol-narrow' }}</td>
+          <td><span class="badge estado-{{ p.estado }}">{{ etiqueta[p.estado] }}</span></td>
+          <td>
+            @if (p.siguienteEstado; as sig) {
+              <button class="btn btn-primary btn-sm" [disabled]="procesando() === p.id" (click)="avanzar(p)">
+                Pasar a {{ etiqueta[sig] }}
+              </button>
+            } @else {
+              <span class="muted">Completado</span>
+            }
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="7" class="muted">No hay pedidos en este estado.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
