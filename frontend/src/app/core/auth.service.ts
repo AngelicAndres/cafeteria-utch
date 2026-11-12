@@ -36,22 +36,37 @@ export class AuthService {
   }
 
   /** Pantalla inicial de cada rol. */
-  rutaInicio(rol: Rol): string {
-    switch (rol) {
+  rutaInicio(rol?: Rol | null): string {
+    switch (rol ?? this.rol()) {
       case 'CLIENTE':
         return '/menu';
       case 'PERSONAL':
         return '/personal';
       case 'ADMIN':
         return '/admin';
+      default:
+        return '/login';
     }
   }
 
   private leerSesion(): LoginResponse | null {
     try {
       const raw = localStorage.getItem(CLAVE_SESION);
-      return raw ? (JSON.parse(raw) as LoginResponse) : null;
+      if (!raw) {
+        return null;
+      }
+
+      const parsed = JSON.parse(raw) as Partial<LoginResponse>;
+      const esSesionValida = parsed?.token && parsed?.rol && parsed?.email && parsed?.nombre;
+
+      if (!esSesionValida) {
+        localStorage.removeItem(CLAVE_SESION);
+        return null;
+      }
+
+      return parsed as LoginResponse;
     } catch {
+      localStorage.removeItem(CLAVE_SESION);
       return null;
     }
   }

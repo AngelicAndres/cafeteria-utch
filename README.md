@@ -66,7 +66,7 @@ Códigos de error: `400` regla de negocio o validación (RN1, RN2, RN3) · `401`
 
 ## 2. Frontend
 
-Requisitos: Node 20+ y Angular CLI (`npm i -g @angular/cli`).
+Requisitos: Node 22.22.3 o 24.15.0+ y Angular CLI (`npm i -g @angular/cli`).
 
 ```bash
 cd frontend
@@ -74,6 +74,9 @@ npm install
 ng serve                     # http://localhost:4200
 ng test                      # pruebas unitarias (Vitest)
 ```
+
+> Si usas `nvm`, puedes fijar la versión recomendada con:
+> `nvm install 24.15.0 && nvm use 24.15.0`
 
 Pantallas: Login · Menú + Carrito (Cliente) · Mis pedidos (Cliente) · Panel del personal · Gestión de productos (Admin).
 
